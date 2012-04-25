@@ -1,0 +1,5 @@
+# Serve Rails
+
+Small project for running rails server in a comint buffer.
+
+Requires eproject (for storing what server to run and for the project root) and popwin.el. It would be easy to decouple this from eproject, if anyone wants to do that I will accept the pull request
