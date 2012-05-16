@@ -43,4 +43,18 @@
       (popwin:popup-buffer out :noselect t))
     (cd current-dir)))
 
+(defun serve-rails:start-jasmine (&optional server)
+  (interactive)
+  (let ((current-dir default-directory))
+    (cd (eproject-root))
+    (let* ((out (apply 'make-comint "jasmine-server" "rake" nil '("jasmine"))))
+
+      (with-current-buffer out
+        (make-local-variable 'comint-buffer-maximum-size)
+        (setq comint-buffer-maximum-size 3000)
+        (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
+
+      (popwin:popup-buffer out :noselect t))
+    (cd current-dir)))
+
 (provide 'serve-rails)
