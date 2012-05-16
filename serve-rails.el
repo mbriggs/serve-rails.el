@@ -29,6 +29,7 @@
   (interactive)
   (let ((current-dir default-directory))
     (cd (eproject-root))
+    (rvm-autodetect-ruby)
     (let* ((server-name (or server serve-rails/default-server))
            (config (cdr (assoc server-name serve-rails/servers)))
            (command (car config))
@@ -47,7 +48,8 @@
   (interactive)
   (let ((current-dir default-directory))
     (cd (eproject-root))
-    (let* ((out (apply 'make-comint "jasmine-server" "rake" nil '("jasmine"))))
+    (rvm-autodetect-ruby)
+    (let* ((out (apply 'make-comint "jasmine-server" "bundle" nil '("exec" "rake" "jasmine"))))
 
       (with-current-buffer out
         (make-local-variable 'comint-buffer-maximum-size)
