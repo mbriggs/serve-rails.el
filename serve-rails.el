@@ -49,7 +49,7 @@
   (let ((current-dir default-directory))
     (cd (eproject-root))
     (rvm-autodetect-ruby)
-    (let* ((out (apply 'make-comint "jasmine-server" "bundle" nil '("exec" "rake" "jasmine"))))
+    (let* ((out (apply 'make-comint "jasmine-server" (concat "(cd " (eproject-root) " && bundle exec rake jasmine)") nil)))
 
       (with-current-buffer out
         (make-local-variable 'comint-buffer-maximum-size)
