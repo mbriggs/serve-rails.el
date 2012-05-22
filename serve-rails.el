@@ -59,6 +59,7 @@
       (popwin:popup-buffer out :noselect t))
     (cd current-dir)))
 
+(defvar *spork-running* nil)
 (defun serve-rails:start-spork (&optional server)
   (interactive)
   (let ((current-dir default-directory))
@@ -72,6 +73,7 @@
         (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
 
       (popwin:popup-buffer out :noselect t))
-    (cd current-dir)))
+    (cd current-dir))
+  (setq *spork-running* t))
 
 (provide 'serve-rails)
