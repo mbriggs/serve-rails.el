@@ -49,7 +49,22 @@
   (let ((current-dir default-directory))
     (cd (eproject-root))
     (rvm-autodetect-ruby)
-    (let* ((out (apply 'make-comint "jasmine-server" "bash" nil '( "-c" (concat "(cd " (eproject-root) " && bundle exec rake jasmine)")))))
+    (let* ((out (apply 'make-comint "jasmine-server" "rake" nil '("jasmine"))))
+
+      (with-current-buffer out
+        (make-local-variable 'comint-buffer-maximum-size)
+        (setq comint-buffer-maximum-size 3000)
+        (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
+
+      (popwin:popup-buffer out :noselect t))
+    (cd current-dir)))
+
+(defun serve-rails:start-spork (&optional server)
+  (interactive)
+  (let ((current-dir default-directory))
+    (cd (eproject-root))
+    (rvm-autodetect-ruby)
+    (let* ((out (apply 'make-comint "spork-server" "spork" nil '("TestUnit"))))
 
       (with-current-buffer out
         (make-local-variable 'comint-buffer-maximum-size)
