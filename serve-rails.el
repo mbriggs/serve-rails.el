@@ -44,7 +44,7 @@
         (setq comint-buffer-maximum-size 3000)
         (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
 
-      (popwin:popup-buffer out :noselect t))
+      (popwin:popup-buffer-tail out :noselect t))
     (cd current-dir)))
 
 (defun serve-rails:start-jasmine (&optional server)
@@ -59,7 +59,7 @@
         (setq comint-buffer-maximum-size 3000)
         (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
 
-      (popwin:popup-buffer out :noselect t))
+      (popwin:popup-buffer-tail out :noselect t))
     (cd current-dir)))
 
 (defun serve-rails:start-spork (&optional server)
@@ -75,11 +75,11 @@
         (setq comint-buffer-maximum-size 3000)
         (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
 
-      (popwin:popup-buffer out
-                           :position 'right
-                           :noselect t
-                           :dedicated t
-                           :stick t))
+      (popwin:popup-buffer-tail out
+                                :position 'right
+                                :width 70
+                                :noselect t
+                                :stick t))
     (cd current-dir)))
 
 (defun serve-rails:start-guard (&optional server)
@@ -95,11 +95,11 @@
         (setq comint-buffer-maximum-size 3000)
         (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
 
-      (popwin:popup-buffer out
-                           :position 'right
-                           :noselect t
-                           :dedicated t
-                           :stick t))
+      (popwin:popup-buffer-tail out
+                                :position 'right
+                                :width 70
+                                :noselect t
+                                :stick t))
     (cd current-dir)))
 
 (provide 'serve-rails)
