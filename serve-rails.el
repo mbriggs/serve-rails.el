@@ -12,6 +12,9 @@
 
 ;; Start a rails server in a comint buffer
 
+(defvar serve-rails/starting-spork-hook nil)
+(defvar serve-rails/starting-guard-hook nil)
+
 (defvar serve-rails/default-server 'thin)
 
 (defvar serve-rails/servers
@@ -59,21 +62,44 @@
       (popwin:popup-buffer out :noselect t))
     (cd current-dir)))
 
-(defvar *spork-running* nil)
 (defun serve-rails:start-spork (&optional server)
   (interactive)
   (let ((current-dir default-directory))
     (cd (eproject-root))
     (rvm-autodetect-ruby)
-    (let* ((out (apply 'make-comint "spork-server" "spork" nil '("TestUnit"))))
+    (run-hooks 'serve-rails/starting-spork-hook)
+    (let* ((out (apply 'make-comint "spork-server" "bundle" nil '("exec" "spork" "TestUnit"))))
 
       (with-current-buffer out
         (make-local-variable 'comint-buffer-maximum-size)
         (setq comint-buffer-maximum-size 3000)
         (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
 
-      (popwin:popup-buffer out :noselect t))
-    (cd current-dir))
-  (setq *spork-running* t))
+      (popwin:popup-buffer out
+                           :position 'right
+                           :noselect t
+                           :dedicated t
+                           :stick t))
+    (cd current-dir)))
+
+(defun serve-rails:start-guard (&optional server)
+  (interactive)
+  (let ((current-dir default-directory))
+    (cd (eproject-root))
+    (rvm-autodetect-ruby)
+    (run-hooks 'serve-rails/starting-guard-hook)
+    (let* ((out (apply 'make-comint "guard" "bundle" nil '("exec" "guard"))))
+
+      (with-current-buffer out
+        (make-local-variable 'comint-buffer-maximum-size)
+        (setq comint-buffer-maximum-size 3000)
+        (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
+
+      (popwin:popup-buffer out
+                           :position 'right
+                           :noselect t
+                           :dedicated t
+                           :stick t))
+    (cd current-dir)))
 
 (provide 'serve-rails)
