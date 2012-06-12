@@ -6,7 +6,7 @@
 ;; Keywords: navigation rails
 ;; Version: 1
 
-;;; Dependancies: popwin.el, eproject
+;;; Dependancies: popwin.el, eproject, github.com/mbriggs/buffer-tail.el
 
 ;;; Commentary:
 
@@ -44,7 +44,8 @@
         (setq comint-buffer-maximum-size 3000)
         (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
 
-      (popwin:popup-buffer-tail out :noselect t))
+      (popwin:popup-buffer-tail out :noselect t)
+      (toggle-buffer-tail "*rails-server*" "on"))
     (cd current-dir)))
 
 (defun serve-rails:start-jasmine (&optional server)
@@ -59,7 +60,8 @@
         (setq comint-buffer-maximum-size 3000)
         (add-hook 'comint-output-filter-functions 'comint-truncate-buffer t t))
 
-      (popwin:popup-buffer-tail out :noselect t))
+      (popwin:popup-buffer-tail out :noselect t)
+      (toggle-buffer-tail "*jasmine-server*" "on"))
     (cd current-dir)))
 
 (defun serve-rails:start-spork (&optional server)
@@ -79,7 +81,8 @@
                                 :position 'right
                                 :width 70
                                 :noselect t
-                                :stick t))
+                                :stick t)
+      (toggle-buffer-tail "*spork-server*" "on"))
     (cd current-dir)))
 
 (defun serve-rails:start-guard (&optional server)
@@ -99,7 +102,8 @@
                                 :position 'right
                                 :width 70
                                 :noselect t
-                                :stick t))
+                                :stick t)
+      (toggle-buffer-tail "*guard*" "on"))
     (cd current-dir)))
 
 (provide 'serve-rails)
