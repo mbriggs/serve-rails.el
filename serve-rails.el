@@ -14,6 +14,7 @@
 
 (defvar serve-rails/starting-spork-hook nil)
 (defvar serve-rails/starting-guard-hook nil)
+(defvar serve-rails/launch-complete-hook nil)
 
 (defvar serve-rails/default-server 'thin)
 
@@ -46,7 +47,8 @@
 
       (popwin:popup-buffer-tail out :noselect t)
       (toggle-buffer-tail "*rails-server*" "on"))
-    (cd current-dir)))
+    (cd current-dir))
+  (run-hooks 'serve-rails/launch-complete-hook))
 
 (defun serve-rails:start-jasmine (&optional server)
   (interactive)
@@ -62,7 +64,8 @@
 
       (popwin:popup-buffer-tail out :noselect t)
       (toggle-buffer-tail "*jasmine-server*" "on"))
-    (cd current-dir)))
+    (cd current-dir))
+  (run-hooks 'serve-rails/launch-complete-hook))
 
 (defun serve-rails:start-spork (&optional server)
   (interactive)
@@ -83,7 +86,8 @@
                                 :noselect t
                                 :stick t)
       (toggle-buffer-tail "*spork-server*" "on"))
-    (cd current-dir)))
+    (cd current-dir))
+  (run-hooks 'serve-rails/launch-complete-hook))
 
 (defun serve-rails:start-guard (&optional server)
   (interactive)
@@ -104,6 +108,7 @@
                                 :noselect t
                                 :stick t)
       (toggle-buffer-tail "*guard*" "on"))
-    (cd current-dir)))
+    (cd current-dir))
+  (run-hooks 'serve-rails/launch-complete-hook))
 
 (provide 'serve-rails)
